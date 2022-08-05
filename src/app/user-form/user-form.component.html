@@ -1,1 +1,130 @@
-<p>user-form works!</p>
+<form [formGroup]="form">
+  <div class="row">
+    <div class="col">
+      <label for="nickname">Nickname</label>
+      <br />
+      <input
+        type="text"
+        name="nickname"
+        id="nickname"
+        placeholder="nickname"
+        formControlName="nickName"
+      />
+      <div class="error-messages" *ngIf="nickName.touched && nickName.errors">
+        <p *ngIf="nickName.errors['required']">This field is required</p>
+      </div>
+    </div>
+    <div class="col">
+      <label for="email">Email</label>
+
+      <br />
+      <input
+        type="email"
+        name="email"
+        id="email"
+        placeholder="email"
+        formControlName="email"
+      />
+      <div class="error-messages" *ngIf="email.touched && email.errors">
+        <p *ngIf="email.errors['required']">This field is required</p>
+        <p *ngIf="email.errors['email']">incorrect email format</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <ng-container formGroupName="passwordGroup">
+      <div class="col">
+        <label for="password">Password</label>
+        <br />
+        <input
+          type="password"
+          name="password"
+          id="password"
+          placeholder="password"
+          formControlName="password"
+        />
+        <div class="error-messages" *ngIf="password.touched && password.errors">
+          <p *ngIf="password.errors['required']">This field is required</p>
+          <p *ngIf="password.errors['minLegth']">Min legth error</p>
+        </div>
+      </div>
+      <div class="col">
+        <label for="confPassword">Confirm password</label>
+
+        <br />
+        <input
+          type="password"
+          name="confPassword"
+          id="confPassword"
+          placeholder="confirm password"
+          formControlName="confirmPassword"
+        />
+        <div
+          class="error-messages"
+          *ngIf="
+            (confirmPassword.touched && confirmPassword.errors) ||
+            (passwordGroup.errors && passwordGroup.touched)
+          "
+        >
+          <p
+            *ngIf="confirmPassword.errors && confirmPassword.errors['required']"
+          >
+            This field is required
+          </p>
+          <p *ngIf="passwordGroup.errors && passwordGroup.errors['mismatch']">
+            Passwords do not match
+          </p>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <label for="number">Phone</label>
+      <br />
+      <input
+        type="number"
+        name="number"
+        id="number"
+        placeholder="Phone"
+        formControlName="phoneNumber"
+      />
+      <div
+        class="error-messages"
+        *ngIf="phoneNumber.touched && phoneNumber.errors"
+      >
+        <p *ngIf="phoneNumber.errors['required']">This field is required</p>
+      </div>
+    </div>
+    <div class="col">
+      <label for="website">Website</label>
+
+      <br />
+      <input
+        type="website"
+        name="website"
+        id="website"
+        placeholder="website"
+        formControlName="website"
+      />
+      <div class="error-messages" *ngIf="website.touched && website.errors">
+        <p *ngIf="website.errors['required']">This field is required</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="!_selectedUser">
+    <div class="col">
+      <label for="terms">Terms</label>
+      <input type="checkbox" id="terms" formControlName="terms" />
+    </div>
+  </div>
+  <div class="actions">
+    <button (click)="submit()" [disabled]="form.invalid">
+      {{ _selectedUser ? "Update" : "Register" }}
+    </button>
+    <button (click)="onCancel()">cancel</button>
+  </div>
+</form>

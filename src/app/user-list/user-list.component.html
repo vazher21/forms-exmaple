@@ -1,1 +1,26 @@
-<p>user-list works!</p>
+<table>
+    <thead>
+        <th>Nickname</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Website</th>
+        <th></th>
+        <th></th>
+    </thead>
+    <tbody *ngIf="users.length; else noUsers">
+        <tr *ngFor="let user of users">
+            <td>{{user.nickName}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.phoneNumber}}</td>
+            <td>{{user.website}}</td>
+            <td><button (click)="onEditClick(user.id)">Edit</button> </td>
+            <td><button (click)="onDeleteClick(user.id)">Delete</button></td>
+        </tr>
+    </tbody>
+
+    <ng-template #noUsers>
+        <div>
+            <h4>No users added yet</h4>
+        </div>
+    </ng-template>
+</table>

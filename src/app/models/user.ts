@@ -1,4 +1,4 @@
-import {FormControl} from "@angular/forms";
+import {FormControl, FormGroup} from "@angular/forms";
 
 export interface User{
   nickName: string;
@@ -17,8 +17,12 @@ export interface UserForm{
   nickName: FormControl<string>;
   phoneNumber: FormControl<string>;
   email: FormControl<string>;
-  password: FormControl<string>;
-  confirmPassword: FormControl<string>;
   website: FormControl<string>;
   terms: FormControl<boolean>;
+  passwordGroup: FormGroup<PasswordFormGroup>;
+}
+
+interface PasswordFormGroup{
+  password: FormControl<string>;
+  confirmPassword: FormControl<string>;
 }

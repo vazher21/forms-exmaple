@@ -1,17 +1,22 @@
 <div class="wrapper">
-  <h1>Users page</h1>
-  <div class="actions">
+  <header>
+    <h1>Users page</h1>
     <button (click)="onAddClick()">Add a new user.</button>
-  </div>
+  </header>
 
-  <app-user-list
-    (deleteClick)="onDeleteClick($event)"
-    (updateClick)="onUpdateClick($event)"
-  ></app-user-list>
+  <main>
+    <app-user-list
+      [users]="users"
+      (deleteClick)="onDeleteClick($event)"
+      (updateClick)="onUpdateClick($event)"
+    ></app-user-list>
 
-  <app-user-form
-    *ngIf="selectedUser || showRegistrationForm"
-    (register)="register($event)"
-    (update)="update($event)"
-  ></app-user-form>
+    <app-user-form
+      *ngIf="selectedUser || showRegistrationForm"
+      [selectedUser]="selectedUser"
+      (register)="register($event)"
+      (update)="update($event)"
+      (cancel)="cancel()"
+    ></app-user-form>
+  </main>
 </div>

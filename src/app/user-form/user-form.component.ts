@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { RegisteredUser, User, UserForm } from '../models/user';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { matchValidator } from '../validators/password.validator';
 
 @Component({
   selector: 'app-user-form',
@@ -21,23 +22,16 @@ export class UserFormComponent {
   }
   @Output() update = new EventEmitter<RegisteredUser>();
   @Output() register = new EventEmitter<User>();
+  @Output() cancel = new EventEmitter<void>();
 
   form = new FormGroup<UserForm>({
-    confirmPassword: new FormControl<string>('', {
-      nonNullable: true,
-      validators: [Validators.required],
-    }),
-    password: new FormControl<string>('', {
-      nonNullable: true,
-      validators: [Validators.required],
-    }),
     nickName: new FormControl<string>('', {
       nonNullable: true,
       validators: [Validators.required],
     }),
     email: new FormControl<string>('', {
       nonNullable: true,
-      validators: [Validators.required],
+      validators: [Validators.required, Validators.email],
     }),
     website: new FormControl<string>('', {
       nonNullable: true,
@@ -47,15 +41,28 @@ export class UserFormComponent {
       nonNullable: true,
       validators: [Validators.required],
     }),
+    passwordGroup: new FormGroup({
+      password: new FormControl<string>('', {
+        nonNullable: true,
+        validators: [Validators.required],
+      }),
+      confirmPassword: new FormControl<string>('', {
+        nonNullable: true,
+        validators: [Validators.required],
+      }),
+    }, [matchValidator('password', 'confirmPassword')]),
     terms: new FormControl<boolean>(false, {
       nonNullable: true,
-      validators: [Validators.required],
+      validators: [Validators.requiredTrue],
     }),
   });
 
   fillForm(registeredUser: RegisteredUser): void {
-    this.form.patchValue(registeredUser);
-    this.confirmPassword.setValue(registeredUser.password);
+    this.nickName.setValue(registeredUser.nickName);
+    this.email.setValue(registeredUser.email);
+    this.phoneNumber.setValue(registeredUser.phoneNumber);
+    this.website.setValue(registeredUser.website);
+    this.password.setValue(registeredUser.password);
   }
 
   readForm(): User | RegisteredUser {
@@ -70,31 +77,40 @@ export class UserFormComponent {
   }
 
   submit(): void {
-    this.selectedUser
+    this._selectedUser
       ? this.update.emit(this.readForm() as RegisteredUser)
       : this.register.emit(this.readForm() as User);
   }
 
+  onCancel(){
+    this.cancel.emit();
+
+  }
+
   // Getters for form controls.
-  private get password(): FormControl {
-    return this.form.get('password') as FormControl;
+  get passwordGroup(): FormGroup{
+    return this.form.get('passwordGroup') as FormGroup;
   }
-  private get confirmPassword(): FormControl {
-    return this.form.get('confirmPassword') as FormControl;
+   get password(): FormControl {
+    return this.passwordGroup.get('password') as FormControl;
   }
-  private get nickName(): FormControl {
+   get confirmPassword(): FormControl {
+    return this.passwordGroup.get('confirmPassword') as FormControl;
+  }
+   get nickName(): FormControl {
     return this.form.get('nickName') as FormControl;
   }
-  private get email(): FormControl {
+   get email(): FormControl {
     return this.form.get('email') as FormControl;
   }
-  private get website(): FormControl {
+   get website(): FormControl {
     return this.form.get('website') as FormControl;
   }
-  private get phoneNumber(): FormControl {
+   get phoneNumber(): FormControl {
     return this.form.get('phoneNumber') as FormControl;
   }
-  private get terms(): FormControl<boolean> {
+   get terms(): FormControl<boolean> {
     return this.form.get('terms') as FormControl<boolean>;
   }
 }
+

@@ -7,7 +7,7 @@ import { RegisteredUser, User } from './models/user';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  users: RegisteredUser[] = [];
+  users: RegisteredUser[] = [   ];
 
   selectedUser: RegisteredUser | null = null;
   showRegistrationForm: boolean = false;
@@ -29,6 +29,11 @@ export class AppComponent {
     }
   }
 
+  cancel(){
+    this.showRegistrationForm = false;
+    this.selectedUser = null;
+  }
+
   // In real application those methods would be calling some sort of http methods.
   delete(id: string) {
     const index = this.users.findIndex((user) => user.id === id);
@@ -39,11 +44,12 @@ export class AppComponent {
   }
   update(updatedUser: RegisteredUser) {
     const index = this.users.findIndex((user) => user.id === updatedUser.id);
+    console.log(index)
     this.users[index] = { ...updatedUser };
     this.selectedUser = null;
   }
   register(newUser: User) {
-    this.users.push({ ...newUser, id: 'ID' });
+    this.users.push({ ...newUser, id: String(Math.random()) });
     this.showRegistrationForm = false;
   }
 }

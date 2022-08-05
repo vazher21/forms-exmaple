@@ -1,4 +1,5 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { RegisteredUser } from '../models/user';
 
 @Component({
   selector: 'app-user-list',
@@ -6,6 +7,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
   styleUrls: ['./user-list.component.scss'],
 })
 export class UserListComponent implements OnInit {
+  @Input() users: RegisteredUser[] = [ ];
   @Output() updateClick = new EventEmitter<string>();
   @Output() deleteClick = new EventEmitter<string>();
   constructor() {}
