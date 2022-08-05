@@ -1,0 +1,18 @@
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid black;
+    margin-bottom: 40px;
+
+}
+
+main{
+    display: flex;
+    app-user-form{
+        display: block;
+        margin-left: 60px;
+    }
+}
+
